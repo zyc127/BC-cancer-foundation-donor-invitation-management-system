@@ -1,0 +1,83 @@
+# BC Cancer Foundation Donor Invitation Management Platform
+
+A full-stack web application designed to help the BC Cancer Foundation manage donor data, organize fundraising events, and generate curated donor invitation lists based on engagement level, donation history, and other filters.
+
+## 🧭 Overview
+
+This platform enables fundraisers and coordinators to:
+
+- Manage events and donors through a user-friendly dashboard
+- Apply filters such as medical focus, location, and engagement level to generate donor invitation lists
+- Edit or remove donor assignments for specific events
+- View and modify event information in real-time
+
+Built with a **React frontend**, **Express.js backend**, and **MySQL** database, this tool supports efficient event and donor management through a responsive UI and RESTful APIs.
+
+## 🔗 Live Demo
+
+🌐 [Donor Invitation Management Platform (Netlify)](https://donor-invitation-management-system.netlify.app/)
+
+📹 [Demo video on YouTube](https://www.youtube.com/watch?v=ZfX092zNjuk)
+> **Login Example:**  
+> - **Email**: `alice@example.com`  
+> - **Password**: `password123`
+
+## ⚙️ Local Setup
+
+1. Clone the repository
+```bash
+git clone https://github.com/MeihaoC/CS5500-BC-Cancer-Foundation.git
+```
+
+2. Install backend dependencies
+```bash
+cd server
+npm install
+npm install bcryptjs
+```
+
+3. Hash passwords for users to enable secure login
+```bash
+node scripts/hashAllUsers.js
+```
+
+4. Start the backend server
+```bash
+node server.js
+```
+
+5. Install frontend dependencies
+```bash
+cd client
+npm install
+```
+
+6. Start the frontend application
+```bash
+npm start
+```
+
+## 🚀 Features
+
+- ✅ Login system for fundraisers and coordinators
+- ✅ Create, edit, and delete fundraising events
+- ✅ Filter donors by:
+  - City
+  - Medical Focus
+  - Engagement Level
+- ✅ Add or remove donors from an event before finalizing the invitation list
+- ✅ Generate a list of recommended donors based on filters
+- ✅ Dynamic UI updates with API integration
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React, Tailwind CSS, Axios
+- **Backend**: Node.js, Express.js
+- **Database**: MySQL
+- **Other tools**: Docker (optional setup), Postman for testing, GitHub for version control
+
+## 🧪 Testing
+
+- Backend routes tested with Postman
+- Frontend functionality tested manually in browser
+- Error handling and edge cases covered (e.g., invalid skill levels, empty input)
