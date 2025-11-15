@@ -26,7 +26,7 @@ Built with a **React frontend**, **Express.js backend**, and **MySQL** database,
 
 1. Clone the repository
 ```bash
-git clone https://github.com/MeihaoC/CS5500-BC-Cancer-Foundation.git
+https://github.com/zyc127/BC-cancer-foundation-donor-invitation-management-system.git
 ```
 
 2. Install backend dependencies
@@ -74,7 +74,7 @@ npm start
 - **Frontend**: React, Tailwind CSS, Axios
 - **Backend**: Node.js, Express.js
 - **Database**: MySQL
-- **Other tools**: Docker (optional setup), Postman for testing, GitHub for version control
+- **Other tools**: Docker, Postman for testing, GitHub for version control
 
 ## 🧪 Testing
 
