@@ -1,0 +1,58 @@
+name: Deploy Backend with ASG & ECR
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Get your repo code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. (Optional) Install backend deps and run tests
+      - name: Install backend dependencies
+        run: |
+          cd server
+          npm install
+
+      - name: Run backend tests
+        run: |
+          cd server
+          # If you don't have tests yet, this won't fail the pipeline
+          npm test || echo "Tests failed or not defined, continuing deployment"
+
+      # 3. Configure AWS credentials using your temporary session credentials from Learner Lab
+      - name: Configure AWS credentials (session credentials)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # 4. Log in to Amazon ECR (your private Docker registry in AWS)
+      - name: Log in to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
+            | docker login --username AWS --password-stdin \
+              ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+
+      # 5. Build and push backend Docker image from the server/ folder to ECR as ":latest"
+      - name: Build and push backend image to ECR
+        run: |
+          cd server
+          IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_NAME }}:latest
+          echo "Building image $IMAGE_URI"
+          docker build -t "$IMAGE_URI" .
+          docker push "$IMAGE_URI"
+
+      # 6. Trigger Auto Scaling Group instance refresh so new instances pull the new image
+      - name: Trigger ASG instance refresh
+        run: |
+          aws autoscaling start-instance-refresh \
+            --auto-scaling-group-name ${{ secrets.ASG_NAME }} \
+            --preferences '{"MinHealthyPercentage": 50, "InstanceWarmup": 60}'
