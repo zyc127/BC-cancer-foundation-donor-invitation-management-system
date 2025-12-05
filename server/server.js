@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 app.get('/', (_req, res) => {
-  res.send('Donor API up');
+  res.send('Hi from new version!!!');
 });
 
 app.use(cors());
@@ -20,4 +20,5 @@ app.use('/api', authRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
 
